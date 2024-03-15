@@ -24,16 +24,16 @@ Listener::Listener(const rclcpp::NodeOptions & options) : Node("listener", optio
                                                     rmw_qos_profile_sensor_data);
 
     RCLCPP_INFO(this->get_logger(), "Subscribed to image topic: %s", image_topic_.c_str());
-    RCLCPP_INFO(this->get_logger(), "Subscribed to image topic: %s", depth_topic_.c_str());
+    RCLCPP_INFO(this->get_logger(), "Subscribed to depth topic: %s", depth_topic_.c_str());
     // Subscribe to the IMU topic
     // imu_sub_ = this->create_subscription<sensor_msgs::msg::Imu>(
     //     "/camera/imu", 10, std::bind(&Listener::ImuCallback, this, std::placeholders::_1),rmw_qos_profile_sensor_data);
 
-    imu_sub_ = this->create_subscription<sensor_msgs::msg::Imu>(
-    "/camera/imu", rclcpp::SensorDataQoS(), std::bind(&Listener::ImuCallback, this, std::placeholders::_1));
-
     cameraInfo_sub_ = this->create_subscription<sensor_msgs::msg::CameraInfo>(
     "/camera/color/camera_info", rclcpp::SensorDataQoS(), std::bind(&Listener::InfoCallback, this, std::placeholders::_1));
+
+    imu_sub_ = this->create_subscription<sensor_msgs::msg::Imu>(
+    "/camera/imu", rclcpp::SensorDataQoS(), std::bind(&Listener::ImuCallback, this, std::placeholders::_1));
 
     RCLCPP_INFO(this->get_logger(), "Subscribed to Info topic: /camera/color/camera_info");
     RCLCPP_INFO(this->get_logger(), "Subscribed to IMU topic: /camera/imu");
