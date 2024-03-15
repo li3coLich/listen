@@ -30,7 +30,7 @@ Listener::Listener(const rclcpp::NodeOptions & options) : Node("listener", optio
     //     "/camera/imu", 10, std::bind(&Listener::ImuCallback, this, std::placeholders::_1),rmw_qos_profile_sensor_data);
 
     cameraInfo_sub_ = this->create_subscription<sensor_msgs::msg::CameraInfo>(
-    "/camera/color/camera_info", rclcpp::SensorDataQoS(), std::bind(&Listener::InfoCallback, this, std::placeholders::_1));
+    "/camera/imu", rclcpp::SensorDataQoS(), std::bind(&Listener::InfoCallback, this, std::placeholders::_1));
 
     imu_sub_ = this->create_subscription<sensor_msgs::msg::Imu>(
     "/camera/imu", rclcpp::SensorDataQoS(), std::bind(&Listener::ImuCallback, this, std::placeholders::_1));
@@ -55,7 +55,6 @@ void Listener::ImuCallback(const sensor_msgs::msg::Imu::ConstSharedPtr & imu_msg
 }
 
 void Listener::InfoCallback(const sensor_msgs::msg::CameraInfo::ConstSharedPtr & cameraInfo_msg) {
-    //IMU processing logic here
     RCLCPP_INFO(this->get_logger(), "Received Info message");
 }
 
